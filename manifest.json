@@ -1,0 +1,28 @@
+{
+    "components": [
+        {
+            "id": "github-templates",
+            "type": "setup",
+            "files": [
+                {
+                    "src": "src/${{ repoType }}",
+                    "dst": ".github"
+                }
+            ],
+            "variables": [
+                {
+                    "name": "githubRepoId",
+                    "type": "string",
+                    "required": true,
+                    "description": "The id of the repository, e.g. myOrg/myRepo."
+                },
+                {
+                    "name": "repoType",
+                    "type": "string",
+                    "required": true,
+                    "description": "The type of the repository: 'app' or 'sdk'"
+                }
+            ]
+        }
+    ]
+}
