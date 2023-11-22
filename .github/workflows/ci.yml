@@ -77,9 +77,9 @@ jobs:
         with:
           filters: |
             templatesApp:
-              - 'src/app/repo/**'
+              - 'src/app/**'
             templatesSdk:
-              - 'src/sdk/repo/**'
+              - 'src/sdk/**'
 
       - name: Check if cloned template repo has changes after sync
         if: (steps.changesInPath.outputs.templatesApp == 'true' || steps.changesInPath.outputs.templatesSdk == 'true')
