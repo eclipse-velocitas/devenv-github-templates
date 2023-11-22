@@ -49,7 +49,7 @@ jobs:
 
       - name: Prepare .velocitas.json for integration test
         run: |
-          NEW_CONFIG="$(jq --arg GITHUB_REF "$GITHUB_REF" '.packages[0].version |= $GITHUB_REF' test/${{ matrix.language }}/.velocitas.json)"
+          NEW_CONFIG="$(jq --arg GITHUB_SHA "$GITHUB_SHA" ".packages[0].version |= $GITHUB_SHA" test/${{ matrix.language }}/.velocitas.json)"
           echo "${NEW_CONFIG}" > test/${{ matrix.language }}/repo/.velocitas.json
 
       - name: Init velocitas project
