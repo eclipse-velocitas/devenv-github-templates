@@ -28,6 +28,15 @@ on:
       - main
 
 jobs:
+  run-linters:
+    name: Run Linters
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+      - uses: pre-commit/action@v3.0.0
+
   run-integration-tests:
     name: Run Integration Test
     runs-on: ubuntu-22.04
@@ -39,10 +48,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout template repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: eclipse-velocitas/vehicle-app-${{ matrix.language }}-template
           path: test/${{ matrix.language }}/repo
