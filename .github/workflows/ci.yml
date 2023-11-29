@@ -49,6 +49,7 @@ jobs:
 
       - name: Prepare .velocitas.json for integration test
         run: |
+          echo $GITHUB_SHA
           NEW_CONFIG="$(jq --arg GITHUB_SHA "$GITHUB_SHA" '.packages[0].version |= $GITHUB_SHA' test/${{ matrix.language }}/.velocitas.json)"
           echo "${NEW_CONFIG}" > test/${{ matrix.language }}/repo/.velocitas.json
 
