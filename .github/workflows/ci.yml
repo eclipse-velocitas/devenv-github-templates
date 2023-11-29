@@ -56,6 +56,10 @@ jobs:
           repository: eclipse-velocitas/vehicle-app-${{ matrix.language }}-template
           path: test/${{ matrix.language }}/repo
 
+      - name: Fix dubious ownership
+        run: |
+          git config --global --add safe.directory $( pwd )
+
       - name: Prepare .velocitas.json for integration test
         run: |
           MERGE_SHA=$(git rev-parse HEAD)
@@ -78,10 +82,6 @@ jobs:
         run: |
           cd test/${{ matrix.language }}/repo
           git checkout .velocitas.json
-
-      - name: Fix dubious ownership
-        run: |
-          git config --global --add safe.directory $( pwd )
 
       - name: Identify changes in devenv repo
         uses: dorny/paths-filter@v2
