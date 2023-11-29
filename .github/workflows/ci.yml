@@ -58,7 +58,10 @@ jobs:
 
       - name: Prepare .velocitas.json for integration test
         run: |
-          NEW_CONFIG="$(jq --arg GITHUB_SHA "$GITHUB_SHA" '.packages[0].version |= $GITHUB_SHA' test/${{ matrix.language }}/.velocitas.json)"
+          MERGE_SHA=$(git rev-parse HEAD)
+          echo $MERGE_SHA
+          echo $GITHUB_SHA
+          NEW_CONFIG="$(jq --arg MERGE_SHA "${MERGE_SHA}" '.packages[0].version |= $MERGE_SHA' test/${{ matrix.language }}/.velocitas.json)"
           echo "${NEW_CONFIG}" > test/${{ matrix.language }}/repo/.velocitas.json
 
       - name: Init velocitas project
