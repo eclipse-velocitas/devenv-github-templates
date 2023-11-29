@@ -61,8 +61,10 @@ jobs:
           path: test/${{ matrix.language }}/repo
 
       - name: Prepare .velocitas.json for integration test
+        env:
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
         run: |
-          NEW_CONFIG="$(jq --arg GITHUB_SHA "${GITHUB_SHA}" '.packages[0].version |= $GITHUB_SHA' test/${{ matrix.language }}/.velocitas.json)"
+          NEW_CONFIG="$(jq --arg BRANCH "$BRANCH_NAME" '.packages[0].version |= $BRANCH' test/${{ matrix.language }}/.velocitas.json)"
           echo "${NEW_CONFIG}" > test/${{ matrix.language }}/repo/.velocitas.json
 
       - name: Init velocitas project
