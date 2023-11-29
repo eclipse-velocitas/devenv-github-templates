@@ -50,6 +50,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Fix dubious ownership
+        run: |
+          git config --global --add safe.directory $( pwd )
+
       - name: "Extract correct git hash"
         id: "git_hash"
         run: |
@@ -61,10 +65,6 @@ jobs:
         with:
           repository: eclipse-velocitas/vehicle-app-${{ matrix.language }}-template
           path: test/${{ matrix.language }}/repo
-
-      - name: Fix dubious ownership
-        run: |
-          git config --global --add safe.directory $( pwd )
 
       - name: Prepare .velocitas.json for integration test
         run: |
