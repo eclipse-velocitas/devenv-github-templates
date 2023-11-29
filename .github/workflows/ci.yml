@@ -68,7 +68,7 @@ jobs:
 
       - name: Prepare .velocitas.json for integration test
         run: |
-          MERGE_SHA = ${{ steps.git_hash.outputs.PACKET_MERGE_SHA }}
+          MERGE_SHA=${{ steps.git_hash.outputs.PACKET_MERGE_SHA }}
           echo $MERGE_SHA
           echo $GITHUB_SHA
           NEW_CONFIG="$(jq --arg MERGE_SHA "${MERGE_SHA}" '.packages[0].version |= $MERGE_SHA' test/${{ matrix.language }}/.velocitas.json)"
