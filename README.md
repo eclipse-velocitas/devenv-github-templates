@@ -1,3 +1,3 @@
 # devenv-github-templates
 
-Repo provides package to handle Github Templates for Velocitas CLI.
+This repo is a Velocitas CLI package to provision Github Templates to Velocitas SDKs and templates via Velocitas life cycle management.
