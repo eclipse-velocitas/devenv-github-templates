@@ -1,4 +1,4 @@
-# Copyright (c) 2023 Robert Bosch GmbH
+# Copyright (c) 2023 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
@@ -28,10 +28,19 @@ on:
       - main
 
 jobs:
+  run-linters:
+    name: Run Linters
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+      - uses: pre-commit/action@v3.0.0
+
   run-integration-tests:
     name: Run Integration Test
     runs-on: ubuntu-22.04
-    container: ghcr.io/eclipse-velocitas/devcontainer-base-images/${{ matrix.language }}:v0.1
+    container: ghcr.io/eclipse-velocitas/devcontainer-base-images/${{ matrix.language }}:v0.2
     strategy:
       matrix:
         language: ["python", "cpp"]
@@ -39,17 +48,23 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Fix dubious ownership
+        run: |
+          git config --global --add safe.directory $( pwd )
 
       - name: Checkout template repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: eclipse-velocitas/vehicle-app-${{ matrix.language }}-template
           path: test/${{ matrix.language }}/repo
 
       - name: Prepare .velocitas.json for integration test
+        env:
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
         run: |
-          NEW_CONFIG="$(jq --arg GITHUB_SHA "$GITHUB_SHA" '.packages[0].version |= $GITHUB_SHA' test/${{ matrix.language }}/.velocitas.json)"
+          NEW_CONFIG="$(jq --arg BRANCH "$BRANCH_NAME" '.packages[0].version |= $BRANCH' test/${{ matrix.language }}/.velocitas.json)"
           echo "${NEW_CONFIG}" > test/${{ matrix.language }}/repo/.velocitas.json
 
       - name: Init velocitas project
@@ -66,10 +81,6 @@ jobs:
         run: |
           cd test/${{ matrix.language }}/repo
           git checkout .velocitas.json
-
-      - name: Fix dubious ownership
-        run: |
-          git config --global --add safe.directory $( pwd )
 
       - name: Identify changes in devenv repo
         uses: dorny/paths-filter@v2
