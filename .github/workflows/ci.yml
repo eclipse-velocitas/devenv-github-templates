@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
       - uses: pre-commit/action@v3.0.0
 
   run-integration-tests:
@@ -82,7 +82,7 @@ jobs:
           git checkout .velocitas.json
 
       - name: Identify changes in devenv repo
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v3
         id: changesInPath
         with:
           filters: |
