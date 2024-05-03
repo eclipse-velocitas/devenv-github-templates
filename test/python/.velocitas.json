@@ -11,5 +11,5 @@
         "githubRepoId": "eclipse-velocitas/vehicle-app-python-template",
         "appExecutionPlatforms": "linux/amd64"
     },
-    "cliVersion": "v0.6.3"
+    "cliVersion": "v0.8.0"
 }

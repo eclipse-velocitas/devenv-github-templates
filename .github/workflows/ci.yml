@@ -40,7 +40,7 @@ jobs:
   run-integration-tests:
     name: Run Integration Test
     runs-on: ubuntu-22.04
-    container: ghcr.io/eclipse-velocitas/devcontainer-base-images/${{ matrix.language }}:v0.2
+    container: ghcr.io/eclipse-velocitas/devcontainer-base-images/${{ matrix.language }}:v0.3
     strategy:
       matrix:
         language: ["python", "cpp"]
@@ -60,12 +60,11 @@ jobs:
           repository: eclipse-velocitas/vehicle-app-${{ matrix.language }}-template
           path: test/${{ matrix.language }}/repo
 
-      - name: Prepare .velocitas.json for integration test
-        env:
-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-        run: |
-          NEW_CONFIG="$(jq --arg BRANCH "$BRANCH_NAME" '.packages[0].version |= $BRANCH' test/${{ matrix.language }}/.velocitas.json)"
-          echo "${NEW_CONFIG}" > test/${{ matrix.language }}/repo/.velocitas.json
+      - name: Update Velocitas JSON with correct version
+        uses: ./.github/actions/update-velocitas-json
+        with:
+          project_path: test/${{ matrix.language }}/repo
+          template_path: test/${{ matrix.language }}/.velocitas.json
 
       - name: Init velocitas project
         run: |
