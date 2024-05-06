@@ -1,15 +1,13 @@
 {
-    "packages": [
-        {
-            "name": "devenv-github-templates",
-            "version": "hash_id"
-        }
-    ],
+    "packages": {
+        "devenv-devcontainer-setup": "hash_id"
+    },
     "variables": {
         "language": "python",
         "repoType": "app",
+        "appManifestPath": "app/AppManifest.json",
         "githubRepoId": "eclipse-velocitas/vehicle-app-python-template",
-        "appExecutionPlatforms": "linux/amd64"
+        "generatedModelPath": "./gen/vehicle_model"
     },
-    "cliVersion": "v0.8.0"
+    "cliVersion": "v0.9.0"
 }
